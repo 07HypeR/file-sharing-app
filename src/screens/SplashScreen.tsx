@@ -1,4 +1,4 @@
-import {View, Text} from 'react-native';
+import {View} from 'react-native';
 import React, {FC, useEffect} from 'react';
 import {navigate} from '../utils/NavigationUtil';
 import {commonStyles} from '../styles/commonStyles';
