@@ -2,6 +2,7 @@ import {View, TouchableOpacity, Image} from 'react-native';
 import React from 'react';
 import {homeHeaderStyles} from '../../styles/homeHeaderStyles';
 import {SafeAreaView} from 'react-native';
+// import {SafeAreaView} from 'react-native-safe-area-context';
 import {commonStyles} from '../../styles/commonStyles';
 import Icon from '../global/Icon';
 import Svg, {Path, Defs, LinearGradient, Stop} from 'react-native-svg';
