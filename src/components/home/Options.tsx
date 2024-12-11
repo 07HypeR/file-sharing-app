@@ -1,4 +1,4 @@
-import {View, Text, TouchableOpacity} from 'react-native';
+import {View, TouchableOpacity} from 'react-native';
 import React, {FC} from 'react';
 import {optionStyles} from '../../styles/optionsStyles';
 import Icon from '../global/Icon';

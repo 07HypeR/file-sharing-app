@@ -4,6 +4,7 @@ import HomeHeader from '../components/home/HomeHeader';
 import {commonStyles} from '../styles/commonStyles';
 import SendReceiveButton from '../components/home/SendReceiveButton';
 import Options from '../components/home/Options';
+import Misc from '../components/home/Misc';
 
 const HomeScreen: FC = () => {
   return (
@@ -16,6 +17,8 @@ const HomeScreen: FC = () => {
         <SendReceiveButton />
 
         <Options />
+
+        <Misc />
       </ScrollView>
     </View>
   );
