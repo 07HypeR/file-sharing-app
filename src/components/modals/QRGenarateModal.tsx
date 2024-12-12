@@ -20,37 +20,24 @@ import Animated, {
 } from 'react-native-reanimated';
 
 import LinearGradient from 'react-native-linear-gradient';
+import QRCode from 'react-native-qrcode-svg';
+import {multiColor} from '../../utils/Constants';
 
 interface ModalProps {
   visible: boolean;
   onClose: () => void;
 }
 
-const QRScannerModal: FC<ModalProps> = ({visible, onClose}) => {
+const QRGenarateModal: FC<ModalProps> = ({visible, onClose}) => {
   const [loading, setLoading] = useState(true);
-  const [codeFound, setCodeFound] = useState(false);
-  const [hasPermission, setHasPermission] = useState(false);
-  const device = useCameraDevice('back') as any;
+  const [qrvalue, setQRValue] = useState('');
   const shimmerTranslateX = useSharedValue(-300);
 
   const shimmerStyle = useAnimatedStyle(() => ({
     transform: [{translateX: shimmerTranslateX.value}],
   }));
 
-  useEffect(() => {
-    const checkPermission = async () => {
-      const cameraPermission = await Camera.requestCameraPermission();
-      setHasPermission(cameraPermission === 'granted');
-    };
-
-    checkPermission();
-
-    if (visible) {
-      setLoading(true);
-      const timer = setTimeout(() => setLoading(false), 400);
-      return () => clearTimeout(timer);
-    }
-  }, [visible]);
+  useEffect(() => {}, [visible]);
 
   useEffect(() => {
     shimmerTranslateX.value = withRepeat(
@@ -59,31 +46,6 @@ const QRScannerModal: FC<ModalProps> = ({visible, onClose}) => {
       false,
     );
   }, [shimmerTranslateX]);
-
-  const handleScan = (data: any) => {
-    const [connectionData, deviceName] = data.replace('tcp://', '').split('|');
-    const [host, port] = connectionData?.split(':');
-    //connectToServer
-  };
-
-  const codeScanner = useMemo<CodeScanner>(
-    () => ({
-      codeTypes: ['qr', 'codabar'],
-      onCodeScanned: codes => {
-        if (codeFound) {
-          return;
-        }
-        console.log(`Scanned ${codes?.length} codes!`);
-        if (codes?.length > 0) {
-          const scannedData = codes[0].value;
-          console.log(scannedData);
-          setCodeFound(true);
-          handleScan(scannedData);
-        }
-      },
-    }),
-    [codeFound],
-  );
 
   return (
     <Modal
@@ -94,7 +56,7 @@ const QRScannerModal: FC<ModalProps> = ({visible, onClose}) => {
       onDismiss={onClose}>
       <View style={modalStyles.modalContainer}>
         <View style={modalStyles.qrContainer}>
-          {loading ? (
+          {loading || qrvalue == null || qrvalue == '' ? (
             <View style={modalStyles.skeleton}>
               <Animated.View style={[modalStyles.shimmerOverlay, shimmerStyle]}>
                 <LinearGradient
@@ -106,25 +68,17 @@ const QRScannerModal: FC<ModalProps> = ({visible, onClose}) => {
               </Animated.View>
             </View>
           ) : (
-            <>
-              {!device || !hasPermission ? (
-                <View style={modalStyles.skeleton}>
-                  <Image
-                    source={require('../../assets/images/no_camera.png')}
-                    style={modalStyles.noCameraImage}
-                  />
-                </View>
-              ) : (
-                <View style={modalStyles.skeleton}>
-                  <Camera
-                    style={modalStyles.skeleton}
-                    isActive={visible}
-                    device={device}
-                    codeScanner={codeScanner}
-                  />
-                </View>
-              )}
-            </>
+            <QRCode
+              value={qrvalue}
+              size={250}
+              logoSize={60}
+              logoBackgroundColor="#fff"
+              logoMargin={2}
+              logoBorderRadius={10}
+              logo={require('../../assets/images/profile2.jpg')}
+              linearGradient={multiColor}
+              enableLinearGradient
+            />
           )}
         </View>
 
@@ -133,7 +87,7 @@ const QRScannerModal: FC<ModalProps> = ({visible, onClose}) => {
             Ensure you're on the same Wi-Fi network.
           </CustomText>
           <CustomText style={modalStyles.infoText2}>
-            Ask the reciver to show a QR code to connect and transfer files.
+            Ask the sender to scan this QR code to connect and transfer files.
           </CustomText>
         </View>
 
@@ -153,4 +107,4 @@ const QRScannerModal: FC<ModalProps> = ({visible, onClose}) => {
   );
 };
 
-export default QRScannerModal;
+export default QRGenarateModal;
