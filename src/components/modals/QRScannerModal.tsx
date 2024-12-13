@@ -1,6 +1,5 @@
 import {
   View,
-  Text,
   Modal,
   TouchableOpacity,
   ActivityIndicator,
@@ -117,7 +116,7 @@ const QRScannerModal: FC<ModalProps> = ({visible, onClose}) => {
               ) : (
                 <View style={modalStyles.skeleton}>
                   <Camera
-                    style={modalStyles.skeleton}
+                    style={modalStyles.camera}
                     isActive={visible}
                     device={device}
                     codeScanner={codeScanner}

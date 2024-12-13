@@ -1,16 +1,8 @@
-import {
-  View,
-  Text,
-  Modal,
-  TouchableOpacity,
-  ActivityIndicator,
-  Image,
-} from 'react-native';
+import {View, Modal, TouchableOpacity, ActivityIndicator} from 'react-native';
 import React, {FC, useEffect, useMemo, useState} from 'react';
 import {modalStyles} from '../../styles/modalStyles';
 import Icon from '../global/Icon';
 import CustomText from '../global/CustomText';
-import {Camera, CodeScanner, useCameraDevice} from 'react-native-vision-camera';
 import Animated, {
   Easing,
   useSharedValue,
@@ -30,7 +22,7 @@ interface ModalProps {
 
 const QRGenarateModal: FC<ModalProps> = ({visible, onClose}) => {
   const [loading, setLoading] = useState(true);
-  const [qrvalue, setQRValue] = useState('');
+  const [qrValue, setQRValue] = useState('');
   const shimmerTranslateX = useSharedValue(-300);
 
   const shimmerStyle = useAnimatedStyle(() => ({
@@ -56,7 +48,7 @@ const QRGenarateModal: FC<ModalProps> = ({visible, onClose}) => {
       onDismiss={onClose}>
       <View style={modalStyles.modalContainer}>
         <View style={modalStyles.qrContainer}>
-          {loading || qrvalue == null || qrvalue == '' ? (
+          {loading || qrValue == null || qrValue == '' ? (
             <View style={modalStyles.skeleton}>
               <Animated.View style={[modalStyles.shimmerOverlay, shimmerStyle]}>
                 <LinearGradient
@@ -69,7 +61,7 @@ const QRGenarateModal: FC<ModalProps> = ({visible, onClose}) => {
             </View>
           ) : (
             <QRCode
-              value={qrvalue}
+              value={qrValue}
               size={250}
               logoSize={60}
               logoBackgroundColor="#fff"
