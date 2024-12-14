@@ -14,6 +14,7 @@ import Animated, {
 import LinearGradient from 'react-native-linear-gradient';
 import QRCode from 'react-native-qrcode-svg';
 import {multiColor} from '../../utils/Constants';
+import DeviceInfo from 'react-native-device-info';
 
 interface ModalProps {
   visible: boolean;
@@ -22,14 +23,18 @@ interface ModalProps {
 
 const QRGenarateModal: FC<ModalProps> = ({visible, onClose}) => {
   const [loading, setLoading] = useState(true);
-  const [qrValue, setQRValue] = useState('');
+  const [qrValue, setQRValue] = useState('Stoic');
   const shimmerTranslateX = useSharedValue(-300);
 
   const shimmerStyle = useAnimatedStyle(() => ({
     transform: [{translateX: shimmerTranslateX.value}],
   }));
 
-  useEffect(() => {}, [visible]);
+  const setUpServer = async () => {
+    const deviceName = await DeviceInfo.getDeviceName();
+
+    setLoading(false);
+  };
 
   useEffect(() => {
     shimmerTranslateX.value = withRepeat(
@@ -37,7 +42,12 @@ const QRGenarateModal: FC<ModalProps> = ({visible, onClose}) => {
       -1,
       false,
     );
-  }, [shimmerTranslateX]);
+
+    if (visible) {
+      setLoading(true);
+      setUpServer();
+    }
+  }, [visible]);
 
   return (
     <Modal
