@@ -1,0 +1,6 @@
+You can generate TLS certificate using this command:-
+
+openssl genrsa -out server-key.pem 4096
+openssl req -new -key server-key.pem -out server-csr.pem
+openssl x509 -req -in server-csr.pem -signkey server-key.pem -out server-cert.pem
+openssl pkcs12 -export -out server-keystore.p12 -inkey server-key.pem -in server-cert.pem
