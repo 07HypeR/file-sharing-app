@@ -21,12 +21,12 @@ In the output, you'll find options to open the app in a
 - [Android emulator](https://reactnative.dev/docs/running-on-device?platform=android&os=windows)
 - [iOS simulator](https://reactnative.dev/docs/running-on-simulator-ios)
 
-## Get a fresh project
+## Clear cache of project
 
-When you're ready, run:
+When you're ready to clean cache, run:
 
 ```bash
-npm run reset-project
+npm start -- --reset-cache
 ```
 
 ## Learn more
